@@ -1,5 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
+        Klient k1 = new Klient(1, "Lukasz", "Bobinski");
+        System.out.print(k1);
     }
 }
