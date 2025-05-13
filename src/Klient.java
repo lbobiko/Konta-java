@@ -25,11 +25,7 @@ public class Klient {
         this.oprocentowanie = 0;
     }
     public String toString(){
-        return "Klient ID:" + idKlienta +
-                ", Imię:" + imie +
-                ", Nazwisko:" + nazwisko +
-                ", Saldo:" + saldoKonta +
-                ", Oprocentowanie:" + oprocentowanie;
+        return idKlienta + imie + nazwisko + saldoKonta + oprocentowanie;
     }
     public int getIdKlienta() {
         return idKlienta;
