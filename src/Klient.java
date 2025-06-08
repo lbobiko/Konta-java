@@ -26,10 +26,10 @@ public class Klient implements Serializable {
         this.saldoKonta = 0;
         this.oprocentowanie = 5.0;
     }
-    public String toString(){
-        return "ID:" + idKlienta + " imię:" + imie
-                + " nazwisko:" + nazwisko + " saldo:" + saldoKonta
-                + " oprocetowanie:" + oprocentowanie;
+    @Override
+    public String toString() {
+        return String.format("ID: %d imię: %s nazwisko: %s saldo: %.2f oprocentowanie: %.2f",
+                idKlienta, imie, nazwisko, saldoKonta, oprocentowanie);
     }
 
 

@@ -58,26 +58,32 @@ public class Main {
                 }
                 case 4 -> {
                     wyczyscEkran();
-                    System.out.println("Podaj ID klienta:");
-                    int pokazID = scanner.nextInt();
-                    scanner.nextLine();
+                    System.out.println("Wyświetlenie danych klienta...");
+                    Integer pokazID = pobierzIdKlienta(scanner);
+                    if (pokazID == null) {
+                        System.out.println("Anulowano. Wciśnij Enter, aby wrócić do menu...");
+                        scanner.nextLine();
+                        break;
+                    }
                     Klient znaleziony = baza.znajdzPoId(pokazID);
                     if (znaleziony != null) {
-                        System.out.println("Dane klienta o ID :" + pokazID + ":");
+                        System.out.println("Dane klienta:");
                         System.out.println(znaleziony);
                     } else {
                         System.out.println("Nie znaleziono klienta o ID: " + pokazID);
                     }
-
                     System.out.println("\nWciśnij Enter, aby kontynuować...");
                     scanner.nextLine();
                 }
                 case 5 -> {
                     wyczyscEkran();
                     System.out.println("Zasilenie konta...");
-                    System.out.println("Podaj ID klienta:");
-                    int pokazID = scanner.nextInt();
-                    scanner.nextLine();
+                    Integer pokazID = pobierzIdKlienta(scanner);
+                    if (pokazID == null) {
+                        System.out.println("Anulowano. Wciśnij Enter, aby wrócić do menu...");
+                        scanner.nextLine();
+                        break;
+                    }
                     Klient znaleziony = baza.znajdzPoId(pokazID);
                     if (znaleziony != null) {
                         System.out.println("Podaj kwotę: ");
@@ -101,9 +107,14 @@ public class Main {
                 case 6 -> {
                     wyczyscEkran();
                     System.out.println("Wypłata z konta...");
-                    System.out.println("Podaj ID Klienta:");
-                    int pokazID = scanner.nextInt();
+                    Integer pokazID = pobierzIdKlienta(scanner);
+                    if (pokazID == null) {
+                        System.out.println("Anulowano. Wciśnij Enter, aby wrócić do menu...");
+                        scanner.nextLine();
+                        break;
+                    }
                     Klient znaleziony = baza.znajdzPoId(pokazID);
+                    System.out.println("Podaj kwotę do wypłaty:");
                     if (znaleziony != null) {
                         double wyplata = scanner.nextDouble();
                         while (wyplata <= 0) {
@@ -122,7 +133,7 @@ public class Main {
                     }
 
                     System.out.println("\nWciśnij Enter, aby kontynuować...");
-                    scanner.nextLine(); // pochłania Enter po nextDouble
+                    // scanner.nextLine(); // pochłania Enter po nextDouble -- USUNIĘTO NA TWOJĄ PROŚBĘ
                     scanner.nextLine(); // oczekuje na Enter od użytkownika
                 }
                 case 7 -> {
@@ -181,15 +192,19 @@ public class Main {
                     System.out.println("Naliczanie oprocentowania. Wybierz jedną z opcji:");
                     String naliczanie = "0";
                     while (!naliczanie.equals("1") && !naliczanie.equals("2") && !naliczanie.equalsIgnoreCase("z")){
+                        wyczyscEkran();
                         System.out.println("1 - naliczanie dla wybranego klienta");
                         System.out.println("2 - naliczanie dla wszystkich klientów");
                         System.out.println("z - Powrót do menu");
                         naliczanie = scanner.nextLine();
                         if (naliczanie.equals("1")){
                             wyczyscEkran();
-                            System.out.println("Naliczanie oprocentowania. Podaj ID klienta");
-                            int procentId = scanner.nextInt();
-                            scanner.nextLine();
+                            Integer procentId = pobierzIdKlienta(scanner);
+                            if (procentId == null) {
+                                System.out.println("Anulowano. Wciśnij Enter...");
+                                scanner.nextLine();
+                                break;
+                            }
                             Klient znaleziony = baza.znajdzPoId(procentId);
                             if (znaleziony != null) {
                                 wyczyscEkran();
@@ -232,14 +247,17 @@ public class Main {
                 case 0 -> {
                     wyczyscEkran();
                     System.out.println("Usuwanie klienta...");
-                    System.out.println("Podaj ID klienta, którego chcesz usunąć:");
-                    int usunID = scanner.nextInt();
-                    scanner.nextLine();
+                    Integer usunID = pobierzIdKlienta(scanner);
+                    if (usunID == null) {
+                        System.out.println("Anulowano. Wciśnij Enter...");
+                        scanner.nextLine();
+                        break;
+                    }
                     Klient znaleziony = baza.znajdzPoId(usunID);
                     if (znaleziony!=null){
                         System.out.println("UWAGA! Próbujesz usunąć klienta:");
                         System.out.println(znaleziony);
-                        System.out.println("Jestes pewny? Wpisz: t - tak, dowolny klawisz - nie:");
+                        System.out.println("Jestes pewny? Wpisz: t - tak, inny znak - nie:");
                         String potwierdzenie = scanner.nextLine();
                         if (potwierdzenie.equalsIgnoreCase("t")){
                             baza.usunKlineta(usunID);
@@ -251,7 +269,6 @@ public class Main {
                     } else{
                         System.out.println("Nie znaleziono klienta o ID: " + usunID);
                     }
-
                 }
                 case 9 -> {
                     // Zapisz dane do pliku przed zakończeniem programu
@@ -271,5 +288,19 @@ public class Main {
     public static void wyczyscEkran() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+    }
+    public static Integer pobierzIdKlienta(Scanner scanner) {
+        while (true) {
+            System.out.println("Podaj ID klienta (lub wpisz 'z', aby wrócić):");
+            String wprowadzonyZnak = scanner.nextLine();
+            if (wprowadzonyZnak.equalsIgnoreCase("z")) {
+                return null;  // użytkownik anulował
+            }
+            try {
+                return Integer.parseInt(wprowadzonyZnak);
+            } catch (NumberFormatException e) {
+                System.out.println("Niepoprawny format. Wprowadź numer ID lub 'z'.");
+            }
+        }
     }
 }
