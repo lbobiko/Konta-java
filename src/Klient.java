@@ -1,4 +1,6 @@
-public class Klient {
+import java.io.Serializable;
+
+public class Klient implements Serializable {
     private int idKlienta;
     private String imie;
     private String nazwisko;
@@ -22,11 +24,16 @@ public class Klient {
         this.imie = imie;
         this.nazwisko = nazwisko;
         this.saldoKonta = 0;
-        this.oprocentowanie = 0;
+        this.oprocentowanie = 5.0;
     }
     public String toString(){
-        return idKlienta + imie + nazwisko + saldoKonta + oprocentowanie;
+        return "ID:" + idKlienta + " imię:" + imie
+                + " nazwisko:" + nazwisko + " saldo:" + saldoKonta
+                + " oprocetowanie:" + oprocentowanie;
     }
+
+
+
     public int getIdKlienta() {
         return idKlienta;
     }
