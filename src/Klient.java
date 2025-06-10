@@ -1,4 +1,6 @@
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class Klient implements Serializable {
     private int idKlienta;
@@ -28,8 +30,9 @@ public class Klient implements Serializable {
     }
     @Override
     public String toString() {
-        return String.format("ID: %d imię: %s nazwisko: %s saldo: %.2f oprocentowanie: %.2f",
-                idKlienta, imie, nazwisko, saldoKonta, oprocentowanie);
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.getDefault());
+        return String.format("Klient ID: %d, Imię: %s, Nazwisko: %s, Saldo: %s, Oprocentowanie: %.2f%%",
+                idKlienta, imie, nazwisko, formatter.format(saldoKonta), oprocentowanie);
     }
 
 

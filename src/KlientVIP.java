@@ -1,7 +1,7 @@
 import java.io.Serializable;
 
 public class KlientVIP extends Klient implements Serializable {
-    private Double dodatkoweOprocentowanie;
+    private double dodatkoweOprocentowanie;
 
     public KlientVIP(int idKlienta, String imie, String nazwisko, double saldoKonta, double oprocentowanie, Double dodatkoweOprocentowanie) {
         super(idKlienta, imie, nazwisko, saldoKonta, oprocentowanie);
@@ -14,10 +14,15 @@ public class KlientVIP extends Klient implements Serializable {
     }
     @Override
     public String toString() {
-        return "[VIP] " + super.toString() + " dodatkowe oprocentowanie: " + dodatkoweOprocentowanie;
+        return String.format("[VIP] %s Dod.oprocentowanie: %.2f%%", super.toString(), dodatkoweOprocentowanie);
     }
 
-    public Double getDodatkoweOprocentowanie() {
+
+    public double getDodatkoweOprocentowanie() {
         return dodatkoweOprocentowanie;
+    }
+
+    public void setDodatkoweOprocentowanie(double dodatkoweOprocentowanie) {
+        this.dodatkoweOprocentowanie = dodatkoweOprocentowanie;
     }
 }
