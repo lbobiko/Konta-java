@@ -1,17 +1,17 @@
 import java.util.Scanner;
 
 public class Program {
-    //private BazaKlientow baza = new BazaKlientow();
-    //private Scanner scanner = new Scanner(System.in);
+    private BazaKlientow baza = new BazaKlientow();
+    private Scanner scanner = new Scanner(System.in);
+
     public void uruchom() {
         wyczyscEkran();
-        BazaKlientow baza = new BazaKlientow();
         StanProgramu stan = StanProgramu.wczytajStanZPliku("stan_programu.dat");  // Wczytanie danych z pliku binarnego po utworzeniu bazy
         if (stan != null) {
-            baza.setKlienci(stan.getKlienci());
-            baza.setOstatnieID(stan.getOstatnieID());
+            this.baza.setKlienci(stan.getKlienci());
+            this.baza.setOstatnieID(stan.getOstatnieID());
         }
-        Scanner scanner = new Scanner(System.in);
+        this.scanner = new Scanner(System.in);
         boolean dziala = true;
 
 
@@ -34,15 +34,15 @@ public class Program {
                 continue; // wraca do pętli i wyświetla menu jeszcze raz
             }
             switch (menu) {
-                case 1 -> dodajKlienta(baza, scanner);
-                case 2 -> wyswietlKlienta(baza, scanner);
-                case 3 -> wyswietlKlientow(baza, scanner);
-                case 4 -> zmianaOprocentowania(baza, scanner);
-                case 5 -> zailenieKonta(baza, scanner);
-                case 6 -> wyplataZKonta(baza, scanner);
-                case 7 -> przelewPomiedzyKontami(baza, scanner);
-                case 8 -> naliczenieOprocentowania(baza, scanner);
-                case 0 -> usunKlienta(baza, scanner);
+                case 1 -> dodajKlienta();
+                case 2 -> wyswietlKlienta();
+                case 3 -> wyswietlKlientow();
+                case 4 -> zmianaOprocentowania();
+                case 5 -> zailenieKonta();
+                case 6 -> wyplataZKonta();
+                case 7 -> przelewPomiedzyKontami();
+                case 8 -> naliczenieOprocentowania();
+                case 0 -> usunKlienta();
                 case 9 -> {
                     // Zapisuje dane do pliku przed zakończeniem programu
                     baza.zapiszStanDoPliku("stan_programu.dat");
@@ -60,7 +60,7 @@ public class Program {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
-    public static Integer pobierzIdKlienta(Scanner scanner) {
+    private Integer pobierzIdKlienta() {
         while (true) {
             System.out.println("Podaj ID klienta (lub wpisz 'z', aby wrócić):");
             String wprowadzonyZnak = scanner.nextLine();
@@ -76,7 +76,7 @@ public class Program {
     }
 
     // Dodaj klienta
-    private void dodajKlienta(BazaKlientow baza, Scanner scanner) {
+    private void dodajKlienta() {
         wyczyscEkran();
         System.out.println("Dodawanie klientow...");
         System.out.println("Podaj imię klienta: ");
@@ -110,15 +110,15 @@ public class Program {
             }
         }
     }
-    private void wyswietlKlientow(BazaKlientow baza, Scanner scanner){
+    private void wyswietlKlientow(){
         wyczyscEkran();
         System.out.println("Lista klientów:");
         baza.wyswietlKlientow();
     }
-    private void wyswietlKlienta(BazaKlientow baza, Scanner scanner){
+    private void wyswietlKlienta(){
         wyczyscEkran();
         System.out.println("Wyświetlenie danych klienta...");
-        Integer pokazID = pobierzIdKlienta(scanner);
+        Integer pokazID = pobierzIdKlienta();
         if (pokazID == null) {
             System.out.println("Anulowano. Wciśnij Enter, aby wrócić do menu...");
             scanner.nextLine();
@@ -134,10 +134,10 @@ public class Program {
         System.out.println("\nWciśnij Enter, aby kontynuować...");
         scanner.nextLine();
     }
-    private void zailenieKonta(BazaKlientow baza, Scanner scanner){
+    private void zailenieKonta(){
         wyczyscEkran();
         System.out.println("Zasilenie konta...");
-        Integer pokazID = pobierzIdKlienta(scanner);
+        Integer pokazID = pobierzIdKlienta();
         if (pokazID == null) {
             System.out.println("Anulowano. Wciśnij Enter, aby wrócić do menu...");
             scanner.nextLine();
@@ -145,7 +145,7 @@ public class Program {
         }
         Klient znaleziony = baza.znajdzPoId(pokazID);
         if (znaleziony != null) {
-            double zasilenie = pobierzDodatniaKwote(scanner, "Podaj kwotę do zasilenia:");
+            double zasilenie = pobierzDodatniaKwote("Podaj kwotę do zasilenia:");
             double noweSaldo = znaleziony.getSaldoKonta() + zasilenie;
             znaleziony.setSaldoKonta(noweSaldo);
             System.out.printf("Zasilono konto. Nowe saldo: %.2f%n", noweSaldo);
@@ -155,10 +155,10 @@ public class Program {
         System.out.println("\nWciśnij Enter, aby kontynuować...");
         scanner.nextLine();
     }
-    private void zmianaOprocentowania(BazaKlientow baza, Scanner scanner){
+    private void zmianaOprocentowania(){
         wyczyscEkran();
         System.out.println("Zmiana oprocentowania...");
-        Integer zmienProcent = pobierzIdKlienta(scanner);
+        Integer zmienProcent = pobierzIdKlienta();
         if (zmienProcent == null){
             System.out.println("Anulowano. Wciśnij Enter, aby wrócić do menu...");
             scanner.nextLine();
@@ -226,10 +226,10 @@ public class Program {
         System.out.println("Wciśnij Enter, aby kontynuować...");
         scanner.nextLine();
     }
-    private void wyplataZKonta(BazaKlientow baza, Scanner scanner){
+    private void wyplataZKonta(){
         wyczyscEkran();
         System.out.println("Wypłata z konta...");
-        Integer pokazID = pobierzIdKlienta(scanner);
+        Integer pokazID = pobierzIdKlienta();
         if (pokazID == null) {
             System.out.println("Anulowano. Wciśnij Enter, aby wrócić do menu...");
             scanner.nextLine();
@@ -237,7 +237,7 @@ public class Program {
         }
         Klient znaleziony = baza.znajdzPoId(pokazID);
         if (znaleziony != null) {
-            double wyplata = pobierzDodatniaKwote(scanner, "Podaj kwotę do wypłaty:");
+            double wyplata = pobierzDodatniaKwote("Podaj kwotę do wypłaty:");
             if (znaleziony.getSaldoKonta() < wyplata) {
                 System.out.printf("Kwota przewyższa stan konta! Stan: %.2f%n", znaleziony.getSaldoKonta());
             } else {
@@ -252,11 +252,11 @@ public class Program {
         System.out.println("\nWciśnij Enter, aby kontynuować...");
         scanner.nextLine();
     }
-    private void przelewPomiedzyKontami(BazaKlientow baza, Scanner scanner){
+    private void przelewPomiedzyKontami(){
         wyczyscEkran();
         System.out.println("Przelew pomiędzy kontami...");
         System.out.println("Klient źródłowy:");
-        Integer odId = pobierzIdKlienta(scanner);
+        Integer odId = pobierzIdKlienta();
         Klient klientZrodlowy = baza.znajdzPoId(odId);
         if (klientZrodlowy==null){
             System.out.println("Nie znaleziono klienta o takim ID. Powrót do menu.");
@@ -286,7 +286,7 @@ public class Program {
         if (klientDocelowy == null) {
             return;
         }
-        double przelew = pobierzDodatniaKwote(scanner, "Podaj kwotę przelewu:");
+        double przelew = pobierzDodatniaKwote("Podaj kwotę przelewu:");
         if (klientZrodlowy.getSaldoKonta() < przelew) {
             System.out.printf("Brak środków na koncie źródłowym (stan: %.2f).%n", klientZrodlowy.getSaldoKonta());
         } else {
@@ -297,7 +297,7 @@ public class Program {
         System.out.println("Wciśnij Enter, aby kontynuować...");
         scanner.nextLine();
     }
-    private void naliczenieOprocentowania(BazaKlientow baza, Scanner scanner){
+    private void naliczenieOprocentowania(){
         wyczyscEkran();
         System.out.println("Naliczanie oprocentowania. Wybierz jedną z opcji:");
         String naliczanie = "0";
@@ -309,7 +309,7 @@ public class Program {
             naliczanie = scanner.nextLine();
             if (naliczanie.equals("1")){
                 wyczyscEkran();
-                Integer procentId = pobierzIdKlienta(scanner);
+                Integer procentId = pobierzIdKlienta();
                 if (procentId == null) {
                     System.out.println("Anulowano. Wciśnij Enter...");
                     scanner.nextLine();
@@ -353,10 +353,10 @@ public class Program {
             }
         }
     }
-    private void usunKlienta(BazaKlientow baza, Scanner scanner){
+    private void usunKlienta(){
         wyczyscEkran();
         KolorowyTekst.wypisz("Usuwanie klienta...", "czerwony");
-        Integer usunID = pobierzIdKlienta(scanner);
+        Integer usunID = pobierzIdKlienta();
         if (usunID == null) {
             System.out.println("Anulowano. Wciśnij Enter...");
             scanner.nextLine();
@@ -379,7 +379,7 @@ public class Program {
             System.out.println("Nie znaleziono klienta o ID: " + usunID);
         }
     }
-    public static double pobierzDodatniaKwote(Scanner scanner, String komunikat) {
+    public double pobierzDodatniaKwote(String komunikat) {
         double kwota = -1;
         while (kwota < 0) {
             System.out.println(komunikat);
