@@ -366,7 +366,7 @@ public class Program {
         if (znaleziony!=null){
             System.out.println("UWAGA! Próbujesz usunąć klienta:");
             System.out.println(znaleziony);
-            System.out.println("Jestes pewny? Wpisz: t - tak, inny znak - nie:");
+            System.out.println("Jestes pewny? Wpisz: t - tak, dowolny inny znak - nie:");
             String potwierdzenie = scanner.nextLine();
             if (potwierdzenie.equalsIgnoreCase("t")){
                 baza.usunKlineta(usunID);
