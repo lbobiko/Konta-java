@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a672a579-2f65-4dab-b4f6-db64f2b8db30" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/KolorowyTekst.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BazaKlientow.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/BazaKlientow.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BazaKlientow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BazaKlientow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Klient.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Klient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/KlientVIP.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/KlientVIP.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Program.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Program.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Program.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stan_programu.dat" beforeDir="false" afterPath="$PROJECT_DIR$/src/stan_programu.dat" afterDir="false" />

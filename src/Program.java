@@ -27,7 +27,6 @@ public class Program {
             KolorowyTekst.wypisz("Wybierz opcję:", "zielony");
             String input = scanner.nextLine();
             int menu;
-            //scanner.nextLine(); // pochłania Enter
             try {
                 menu = Integer.parseInt(input);
             } catch (NumberFormatException e) {
@@ -45,7 +44,7 @@ public class Program {
                 case 8 -> naliczenieOprocentowania(baza, scanner);
                 case 0 -> usunKlienta(baza, scanner);
                 case 9 -> {
-                    // Zapisz dane do pliku przed zakończeniem programu
+                    // Zapisuje dane do pliku przed zakończeniem programu
                     baza.zapiszStanDoPliku("stan_programu.dat");
                     System.out.println("Zamykam program, do zobaczenia!");
                     dziala = false;
@@ -94,12 +93,12 @@ public class Program {
             if(wyborVip.equals("1")){
                 int noweId = baza.generujNoweId();
                 baza.dodajKlienta(new Klient(noweId, imie, nazwisko));
-                System.out.println("Klient dodany, wcisnij dowolny klawisz...");
+                KolorowyTekst.wypisz("Klient dodany, wcisnij dowolny klawisz...", "zielony");
                 scanner.nextLine();
             } else if (wyborVip.equals("2")) {
                 int noweId = baza.generujNoweId();
                 baza.dodajKlienta(new KlientVIP(noweId, imie, nazwisko));
-                System.out.println("Klient VIP dodany, wcisnij dowolny klawisz...");
+                KolorowyTekst.wypisz("Klient VIP dodany, wcisnij dowolny klawisz...", "zielony");
                 scanner.nextLine();
             } else if (wyborVip.equalsIgnoreCase("z")) {
                 System.out.println("Dodawanie przerwane. Wciśnij Enter...");
@@ -127,7 +126,7 @@ public class Program {
         }
         Klient znaleziony = baza.znajdzPoId(pokazID);
         if (znaleziony != null) {
-            System.out.println("Dane klienta:");
+            KolorowyTekst.wypisz("Dane klienta:", "zielony");
             System.out.println(znaleziony);
         } else {
             System.out.println("Nie znaleziono klienta o ID: " + pokazID);
@@ -146,21 +145,13 @@ public class Program {
         }
         Klient znaleziony = baza.znajdzPoId(pokazID);
         if (znaleziony != null) {
-            System.out.println("Podaj kwotę: ");
-            double zasilenie = scanner.nextDouble();
-            while (zasilenie < 0) {
-                System.out.println("Kwota nie może być mniejsza od 0. Wprowadź jeszcze raz.");
-                zasilenie = scanner.nextDouble();
-            }
+            double zasilenie = pobierzDodatniaKwote(scanner, "Podaj kwotę do zasilenia:");
             double noweSaldo = znaleziony.getSaldoKonta() + zasilenie;
             znaleziony.setSaldoKonta(noweSaldo);
             System.out.printf("Zasilono konto. Nowe saldo: %.2f%n", noweSaldo);
-
-            scanner.nextLine();
         } else {
             System.out.println("Nie znaleziono klienta o ID: " + pokazID);
         }
-
         System.out.println("\nWciśnij Enter, aby kontynuować...");
         scanner.nextLine();
     }
@@ -186,10 +177,10 @@ public class Program {
                 try {
                     procentBazowy = Double.parseDouble(input);
                     if (procentBazowy <= 0 ){
-                        System.out.println("Oprocentowanie musi być większe od zera.");
+                        KolorowyTekst.wypisz("Oprocentowanie musi być większe od zera.", "fioletowy");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("To nie jest poprawna liczba. Wprowadź jeszcze raz.");
+                    KolorowyTekst.wypisz("To nie jest poprawna liczba. Wprowadź jeszcze raz.", "fioletowy");
                 }
             }
 
@@ -200,10 +191,10 @@ public class Program {
                 try {
                     procentDodatkowy = Double.parseDouble(input);
                     if (procentDodatkowy <= 0 ){
-                        System.out.println("Oprocentowanie musi być większe od zera.");
+                        KolorowyTekst.wypisz("Oprocentowanie musi być większe od zera.", "fioletowy");
                     }
                 } catch (NumberFormatException e) {
-                    KolorowyTekst.wypisz("To nie jest poprawna liczba. Wprowadź jeszcze raz.", "czerwony");
+                    KolorowyTekst.wypisz("To nie jest poprawna liczba. Wprowadź jeszcze raz.", "fioletowy");
                 }
             }
             vip.setOprocentowanie(procentBazowy);
@@ -245,13 +236,8 @@ public class Program {
             return;
         }
         Klient znaleziony = baza.znajdzPoId(pokazID);
-        System.out.println("Podaj kwotę do wypłaty:");
         if (znaleziony != null) {
-            double wyplata = scanner.nextDouble();
-            while (wyplata <= 0) {
-                System.out.println("Kwota musi być większa od zera. Wprowadź jeszcze raz:");
-                wyplata = scanner.nextDouble();
-            }
+            double wyplata = pobierzDodatniaKwote(scanner, "Podaj kwotę do wypłaty:");
             if (znaleziony.getSaldoKonta() < wyplata) {
                 System.out.printf("Kwota przewyższa stan konta! Stan: %.2f%n", znaleziony.getSaldoKonta());
             } else {
@@ -265,7 +251,6 @@ public class Program {
 
         System.out.println("\nWciśnij Enter, aby kontynuować...");
         scanner.nextLine();
-
     }
     private void przelewPomiedzyKontami(BazaKlientow baza, Scanner scanner){
         wyczyscEkran();
@@ -301,12 +286,8 @@ public class Program {
         if (klientDocelowy == null) {
             return;
         }
-        System.out.println("Podaj kwotę przelewu:");
-        Double przelew = scanner.nextDouble();
-        scanner.nextLine();
-        if (przelew < 0) {
-            System.out.println("Kwota nie może być ujemna.");
-        } else if (klientZrodlowy.getSaldoKonta() < przelew) {
+        double przelew = pobierzDodatniaKwote(scanner, "Podaj kwotę przelewu:");
+        if (klientZrodlowy.getSaldoKonta() < przelew) {
             System.out.printf("Brak środków na koncie źródłowym (stan: %.2f).%n", klientZrodlowy.getSaldoKonta());
         } else {
             klientZrodlowy.setSaldoKonta(klientZrodlowy.getSaldoKonta() - przelew);
@@ -357,7 +338,7 @@ public class Program {
 
             } else if (naliczanie.equals("2")) {
                 wyczyscEkran();
-                System.out.println("Jesteś pewny, że chcesz naliczyć oprocentowanie dla WSZYSTKICH?");
+                KolorowyTekst.wypisz("Jesteś pewny, że chcesz naliczyć oprocentowanie dla WSZYSTKICH?", "zielony");
                 System.out.println("Potwierdź wpisując t, lub anuluj wpisując dowolny znak:");
                 String potwierdzenie = scanner.nextLine();
                 if (potwierdzenie.equalsIgnoreCase("t")){
@@ -374,7 +355,7 @@ public class Program {
     }
     private void usunKlienta(BazaKlientow baza, Scanner scanner){
         wyczyscEkran();
-        System.out.println("Usuwanie klienta...");
+        KolorowyTekst.wypisz("Usuwanie klienta...", "czerwony");
         Integer usunID = pobierzIdKlienta(scanner);
         if (usunID == null) {
             System.out.println("Anulowano. Wciśnij Enter...");
@@ -398,5 +379,20 @@ public class Program {
             System.out.println("Nie znaleziono klienta o ID: " + usunID);
         }
     }
-
+    public static double pobierzDodatniaKwote(Scanner scanner, String komunikat) {
+        double kwota = -1;
+        while (kwota < 0) {
+            System.out.println(komunikat);
+            String input = scanner.nextLine();
+            try {
+                kwota = Double.parseDouble(input);
+                if (kwota <= 0) {
+                    KolorowyTekst.wypisz("Kwota nie może być mniejsza od zera. Wprowadź jeszcze raz.", "czerwony");
+                }
+            } catch (NumberFormatException e) {
+                KolorowyTekst.wypisz("To nie jest poprawna liczba. Wprowadź jeszcze raz.", "czerwony");
+            }
+        }
+        return kwota;
+    }
 }
