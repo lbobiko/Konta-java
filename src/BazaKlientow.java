@@ -54,13 +54,10 @@ public class BazaKlientow {
     // %-10.2f -> liczba zmiennoprzecinkowa (Saldo), 10 znaków, 2 miejsca po przecinku, wyrównanie do lewej
     // %-15.2f -> liczba zmiennoprzecinkowa (Oprocentowanie), 15 znaków, 2 miejsca po przecinku, wyrównanie do lewej
     public void wyswietlKlientow(){
-        final String ANSI_YELLOW = "\u001B[33m";
-        final String ANSI_CYAN = "\u001B[36m";
-        final String ANSI_RESET = "\u001B[0m";
-        System.out.printf(ANSI_YELLOW + "%-5s %-10s %-15s %-10s %-15s %-15s" + ANSI_RESET + "%n", "Id", "Imie", "Nazwisko", "Saldo", "Oprocentowanie", "Dodatkowe %");
+        KolorowyTekst.wypisz(String.format("%-5s %-10s %-15s %-10s %-15s %-15s", "Id", "Imie", "Nazwisko", "Saldo", "Oprocentowanie", "Dodatkowe %"), "żółty");
         for (Klient k : klienci){
             if (k instanceof KlientVIP vip) {
-                System.out.printf(ANSI_CYAN + "%-5d %-10s %-15s %-10.2f %-15.2f %-15.2f" + ANSI_RESET + "%n", vip.getIdKlienta(), vip.getImie(), vip.getNazwisko(), vip.getSaldoKonta(), vip.getOprocentowanie(), vip.getDodatkoweOprocentowanie());
+                KolorowyTekst.wypisz(String.format("%-5d %-10s %-15s %-10.2f %-15.2f %-15.2f", vip.getIdKlienta(), vip.getImie(), vip.getNazwisko(), vip.getSaldoKonta(), vip.getOprocentowanie(), vip.getDodatkoweOprocentowanie()), "jasnoniebieski");
             } else {
                 System.out.printf("%-5d %-10s %-15s %-10.2f %-15.2f %-15s%n", k.getIdKlienta(), k.getImie(), k.getNazwisko(), k.getSaldoKonta(), k.getOprocentowanie(), "-");
             }

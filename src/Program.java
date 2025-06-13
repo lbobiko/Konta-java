@@ -16,16 +16,24 @@ public class Program {
 
 
         while (dziala) {
-            System.out.println("\n--- MENU ---");
+            //System.out.println("\n--- MENU ---");
+            KolorowyTekst.wypisz("                             MENU GŁÓWNE:", "zielony");
+            KolorowyTekst.wypisz("----------------------------------------------------------------------", "zielony");
             System.out.println("1. Dodaj klienta                        |  2. Wyświetl wybranego klienta");
             System.out.println("3. Wyświetl wszystkich klientów         |  4. Zmiana oprocentowania konta");
             System.out.println("5. Zasilenie konta klienta              |  6. Wypłata z konta klienta");
             System.out.println("7. Przelew pomiędzy kontami             |  8. Naliczenie oprocentowania");
             System.out.println("9. Zapis zmian i zakończenie programu   |  0. Usuniecie klienta");
-            System.out.print("Wybierz opcję: ");
-            int menu = scanner.nextInt();
-            scanner.nextLine(); // pochłania Enter
-
+            KolorowyTekst.wypisz("Wybierz opcję:", "zielony");
+            String input = scanner.nextLine();
+            int menu;
+            //scanner.nextLine(); // pochłania Enter
+            try {
+                menu = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                KolorowyTekst.wypisz("Nieprawidłowy wybór. Wpisz liczbę.", "czerwony");
+                continue; // wraca do pętli i wyświetla menu jeszcze raz
+            }
             switch (menu) {
                 case 1 -> dodajKlienta(baza, scanner);
                 case 2 -> wyswietlKlienta(baza, scanner);
@@ -43,7 +51,7 @@ public class Program {
                     dziala = false;
                 }
                 default -> {
-                    System.out.println("Nieprawidłowa opcja!");
+                    KolorowyTekst.wypisz("Nieprawidłowa opcja.", "czerwony");
                 }
             }
         }
@@ -63,7 +71,7 @@ public class Program {
             try {
                 return Integer.parseInt(wprowadzonyZnak);
             } catch (NumberFormatException e) {
-                System.out.println("Niepoprawny format. Wprowadź numer ID lub 'z'.");
+                KolorowyTekst.wypisz("Niepoprawny format. Wprowadź numer ID lub 'z'.", "czerwony");
             }
         }
     }
@@ -98,7 +106,7 @@ public class Program {
                 scanner.nextLine();
                 wyczyscEkran();
             }else{
-                System.out.println("Proszę wybrać odpowiednią opcję. Wciśnij Enter...");
+                KolorowyTekst.wypisz("Proszę wybrać odpowiednią opcję. Wciśnij Enter...", "czerwony");
 
             }
         }
@@ -195,7 +203,7 @@ public class Program {
                         System.out.println("Oprocentowanie musi być większe od zera.");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("To nie jest poprawna liczba. Wprowadź jeszcze raz.");
+                    KolorowyTekst.wypisz("To nie jest poprawna liczba. Wprowadź jeszcze raz.", "czerwony");
                 }
             }
             vip.setOprocentowanie(procentBazowy);
@@ -215,7 +223,7 @@ public class Program {
                         System.out.println("Oprocentowanie musi być większe od zera");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("To nie jest poprawna liczba. Wprowadź jeszcze raz.");
+                    KolorowyTekst.wypisz("To nie jest poprawna liczba. Wprowadź jeszcze raz.", "czerwony");
                 }
             }
             znaleziony.setOprocentowanie(procent);
