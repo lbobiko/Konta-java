@@ -257,6 +257,11 @@ public class Program {
         System.out.println("Przelew pomiędzy kontami...");
         System.out.println("Klient źródłowy:");
         Integer odId = pobierzIdKlienta();
+        if (odId == null) {
+            System.out.println("Anulowano. Wciśnij Enter, aby wrócić do menu...");
+            scanner.nextLine();
+            return;
+        }
         Klient klientZrodlowy = baza.znajdzPoId(odId);
         if (klientZrodlowy==null){
             System.out.println("Nie znaleziono klienta o takim ID. Powrót do menu.");
